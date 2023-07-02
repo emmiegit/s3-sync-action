@@ -4,6 +4,8 @@ This is a fork of [jakejarvis/s3-sync-action](https://github.com/jakejarvis/s3-s
 
 This action is based on the above, but does not invoke aws-cli, instead using its own system to sync the source and destination directory. As such, it lacks several options found in the parent GitHub workflow action. The intended use case is uploading built files to a destination subdirectory in S3, replacing any existing contents.
 
+You may use this action if you wish, bear in mind it was created to upload (primarily CSS theme) assets to `cdn.scpwiki.com`. See an example workflow: https://github.com/scpwiki/sigma/blob/main/.github/workflows/deploy.yaml
+
 
 ## Usage
 
