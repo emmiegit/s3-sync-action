@@ -2,7 +2,6 @@ import argparse
 import logging
 import os
 import sys
-from pprint import pformat
 
 from .sync import pre_delete, sync_dir
 
@@ -67,7 +66,11 @@ if __name__ == "__main__":
     args = argparser.parse_args()
     setup_logging(args.debug)
     logger.info("Running with arguments: %r", sys.argv)
-    logger.debug("Parsed argument values:\n%s", pformat(args))
+    logger.debug("Parsed argument values: %s", args)
+
+    if args.dest.startswith("/"):
+        logger.error("Destination directory should not start with /")
+        sys.exit(1)
 
     if args.delete:
         pre_delete(args)
