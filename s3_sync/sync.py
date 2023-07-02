@@ -1,6 +1,7 @@
 import logging
 import os
 import subprocess
+from pathlib import PurePath
 
 logger = logging.getLogger(__package__)
 
@@ -44,11 +45,11 @@ def pre_delete(args):
     run_s3_command(args, "rm", "--recursive", s3_path)
 
 
-def sync_file(args, path):
-    logger.info("Uploading %s", path)
-    mime_type = get_mime(path)
-    s3_path = os.path.join(bucket_path(args), path)
-    run_s3_command(args, "cp", path, s3_path, "--no-progress", "--content-type", mime_type)
+def sync_file(args, source_path, dest_path):
+    logger.info("Uploading %s", source_path)
+    mime_type = get_mime(source_path)
+    s3_path = os.path.join(bucket_path(args), dest_path)
+    run_s3_command(args, "cp", source_path, s3_path, "--no-progress", "--content-type", mime_type)
 
 
 def sync_dir(args):
@@ -60,13 +61,15 @@ def sync_dir(args):
             continue
 
         logger.info("Entered %s", dirpath)
+        destdir = parent_path(args.source, dirpath)
         for filename in filenames:
             fullpath = os.path.join(dirpath, filename)
+            destpath = os.path.join(destdir, filename) if destdir != "." else filename
             if is_excluded(args, fullpath):
                 logger.debug("Skipping path %s", fullpath)
                 continue
 
-            sync_file(args, fullpath)
+            sync_file(args, fullpath, destpath)
 
 
 def is_excluded(args, path):
@@ -75,3 +78,9 @@ def is_excluded(args, path):
             if os.path.samefile(path, excluded_path):
                 return True
     return False
+
+
+def parent_path(parent, child):
+    parent_path = PurePath(parent)
+    child_path = PurePath(child)
+    return str(child_path.relative_to(parent_path))
