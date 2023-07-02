@@ -32,7 +32,7 @@ text
 EOF
 
 # Run our custom S3 sync script
-python -m s3_sync \
+python /s3_sync.py \
 	--source "${SOURCE_DIR:-.}" \
 	--dest "${DEST_DIR:-}" \
 	--bucket "$AWS_S3_BUCKET" \
