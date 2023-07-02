@@ -11,7 +11,7 @@ This action is based on the above, but does not invoke aws-cli, instead using it
 
 * `--delete` **permanently deletes** files in the S3 bucket under `DEST_DIR` which are **not** present in your latest build.
 * `--follow-symlinks` causes any symbolic links in the source directory to be followed. **Note:** if your linked directory structure is recursive, this can lead to an infinite loop.
-* `--exclude <DIRECTORY>` skips the given directory when scanning, causing it to not be uploaded. Can be specified multiple times.
+* `--exclude <DIRECTORY>` skips the given directory or path when scanning, causing it to not be uploaded. Can be specified multiple times. Does not accept wildcards.
 * `--endpoint <URL>` specifies a custom endpoint URL. See [VPC scenarios](https://aws.amazon.com/blogs/aws/new-vpc-endpoint-for-amazon-s3/) and [DigitalOcean Spaces](https://www.digitalocean.com/community/tools/adapting-an-existing-aws-s3-application-to-digitalocean-spaces).
 
 ### `workflow.yaml` Example
