@@ -16,10 +16,9 @@ def run_s3_command(args, command, *options):
         command,
         "--profile",
         args.profile,
-        "--no-progress",
     ]
     arguments.extend(options)
-    logger.debug("Running command %r", arguments)
+    logger.debug("Running command: %r", arguments)
     subprocess.check_call(arguments)
 
 
@@ -49,7 +48,7 @@ def sync_file(args, path):
     logger.info("Uploading %s", path)
     mime_type = get_mime(path)
     s3_path = os.path.join(bucket_path(args), path)
-    run_s3_command(args, "cp", s3_path, path, "--content-type", mime_type)
+    run_s3_command(args, "cp", s3_path, path, "--no-progress", "--content-type", mime_type)
 
 
 def sync_dir(args):
