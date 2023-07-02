@@ -167,3 +167,4 @@ if __name__ == "__main__":
         pre_delete(args)
 
     sync_dir(args)
+    logger.info("Finished uploading to S3!")
