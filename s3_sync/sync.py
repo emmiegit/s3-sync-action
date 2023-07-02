@@ -46,9 +46,10 @@ def pre_delete(args):
 
 
 def sync_file(args, path):
-    logger.info("Uploading %s", fullpath)
+    logger.info("Uploading %s", path)
     mime_type = get_mime(path)
-    run_s3_command(args, "cp", source, dest, "--content-type", mime_type)
+    s3_path = os.path.join(bucket_path(args), path)
+    run_s3_command(args, "cp", s3_path, path, "--content-type", mime_type)
 
 
 def sync_dir(args):
@@ -70,7 +71,8 @@ def sync_dir(args):
 
 
 def is_excluded(args, path):
-    for excluded_path in args.exclude:
-        if os.path.samefile(path, excluded_path):
-            return True
+    if args.exclude is not None:
+        for excluded_path in args.exclude:
+            if os.path.samefile(path, excluded_path):
+                return True
     return False
