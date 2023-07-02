@@ -7,12 +7,11 @@ from .sync import pre_delete, sync_dir
 
 logger = logging.getLogger(__package__)
 
-LOG_FORMAT = "[%(levelname)s] %(asctime)s - %(message)s"
-LOG_DATE_FORMAT = "%Y/%m/%d %H:%M:%S"
+LOG_FORMAT = "[%(levelname)s] %(message)s"
 
 
 def setup_logging(debug):
-    log_formatter = logging.Formatter(LOG_FORMAT, datefmt=LOG_DATE_FORMAT)
+    log_formatter = logging.Formatter(LOG_FORMAT)
     log_handler = logging.StreamHandler(sys.stdout)
     log_handler.setFormatter(log_formatter)
 
