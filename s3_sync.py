@@ -1,11 +1,14 @@
 import argparse
 import logging
 import os
+import re
 import subprocess
 import sys
 from pathlib import PurePath
 
 logger = logging.getLogger(__package__)
+
+MIME_TYPE_REGEX = re.compile(r"([^;]+); charset=(.+)")
 
 
 def setup_logging(debug):
@@ -34,6 +37,31 @@ def run_s3_command(args, command, *options):
     subprocess.check_call(arguments)
 
 
+def transform_mime(path, full_mime_type):
+    # Do some transformations, since sometimes 'file' is conservative
+    # or we want to assert a stronger content-type.
+
+    match = MIME_TYPE_REGEX.fullmatch(full_mime_type)
+    if match is None:
+        raise ValueError(f"MIME type did not mach regex: {full_mime_type!r}")
+
+    mime_type, charset = match[1], match[2]
+    _, ext = os.path.splitext(path)
+
+    # Prefer UTF-8 over ASCII
+    if charset == "us-ascii":
+        charset = "utf-8"
+
+    # If extension is .css, but it says text/plain, upgrade to text/css
+    if ext.lower() == ".css" and mime_type == "text/plain":
+        mime_type = "text/css"
+
+    # Re-build full MIME type and return
+    new_mime_type = f"{mime_type}; charset={charset}"
+    logger.info("Transformed MIME type: %s", new_mime_type)
+    return new_mime_type
+
+
 def get_mime(path):
     output = subprocess.check_output(
         [
@@ -44,8 +72,8 @@ def get_mime(path):
         ]
     )
     mime_type = output.decode("utf-8").rstrip()
-    logger.debug("Got MIME type for %s: %s", path, mime_type)
-    return mime_type
+    logger.debug("Raw MIME response: %s", mime_type)
+    return transform_mime(path, mime_type)
 
 
 def is_excluded(args, path):
