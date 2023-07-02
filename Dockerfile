@@ -10,6 +10,9 @@ LABEL repository="https://github.com/emmiegit/s3-sync-action"
 LABEL homepage="https://emmie.tech/"
 LABEL maintainer="Emmie Maeda <emmie.maeda@gmail.com>"
 
+# Install file/magic utility
+RUN apk add --no-cache file
+
 # https://github.com/aws/aws-cli/blob/master/CHANGELOG.rst
 ENV AWSCLI_VERSION='1.18.14'
 RUN pip install --quiet --no-cache-dir awscli==${AWSCLI_VERSION}
