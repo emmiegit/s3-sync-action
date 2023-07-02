@@ -86,6 +86,8 @@ def sync_file(args, source_path, dest_path):
 
 
 def sync_dir(args):
+    logger.info("Beginning upload to %s", bucket_path(args))
+
     for dirpath, dirnames, filenames in os.walk(
         args.source,
         followlinks=args.follow_symlinks,
