@@ -33,8 +33,8 @@ EOF
 
 # Run our custom S3 sync script
 python -m s3_sync \
-	--source "$SOURCE_DIR" \
-	--dest "$DEST_DIR" \
+	--source "${SOURCE_DIR:-.}" \
+	--dest "${DEST_DIR:-}" \
 	--bucket "$AWS_S3_BUCKET" \
 	--profile s3-sync-action \
 	"$@"
