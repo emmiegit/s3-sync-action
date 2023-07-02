@@ -50,7 +50,13 @@ def sync_file(args, source_path, dest_path):
     mime_type = get_mime(source_path)
     s3_path = os.path.join(bucket_path(args), dest_path)
     run_s3_command(
-        args, "cp", source_path, s3_path, "--no-progress", "--content-type", mime_type,
+        args,
+        "cp",
+        source_path,
+        s3_path,
+        "--no-progress",
+        "--content-type",
+        mime_type,
     )
 
 
