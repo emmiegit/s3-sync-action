@@ -22,10 +22,14 @@ def setup_logging(debug):
 if __name__ == "__main__":
     argparser = argparse.ArgumentParser()
     argparser.add_argument(
-        "--debug", action="store_true", help="Whether to emit debug logging",
+        "--debug",
+        action="store_true",
+        help="Whether to emit debug logging",
     )
     argparser.add_argument(
-        "--source", required=True, help="Source directory to copy from",
+        "--source",
+        required=True,
+        help="Source directory to copy from",
     )
     argparser.add_argument(
         "--dest",

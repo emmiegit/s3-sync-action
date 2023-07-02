@@ -49,12 +49,15 @@ def sync_file(args, source_path, dest_path):
     logger.info("Uploading %s -> %s", source_path, dest_path)
     mime_type = get_mime(source_path)
     s3_path = os.path.join(bucket_path(args), dest_path)
-    run_s3_command(args, "cp", source_path, s3_path, "--no-progress", "--content-type", mime_type)
+    run_s3_command(
+        args, "cp", source_path, s3_path, "--no-progress", "--content-type", mime_type,
+    )
 
 
 def sync_dir(args):
     for dirpath, dirnames, filenames in os.walk(
-        args.source, followlinks=args.follow_symlinks,
+        args.source,
+        followlinks=args.follow_symlinks,
     ):
         if is_excluded(args, dirpath):
             logger.debug("Skipping directory %s", dirpath)
