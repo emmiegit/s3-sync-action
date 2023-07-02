@@ -1,4 +1,4 @@
-# GitHub Action to Sync S3 Bucket 🔄
+# GitHub Action to Sync S3 Bucket
 
 This is a fork of [jakejarvis/s3-sync-action](https://github.com/jakejarvis/s3-sync-action) which works around an issue with aws-cli applying an incorrect charset in MIME guessing mode. Due to how long outstanding this issue is, it seems unlikely it will be fixed. See https://github.com/aws/aws-cli/issues/1346.
 
