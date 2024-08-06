@@ -1,3 +1,9 @@
+## ARCHIVED
+
+This repository is archived and not in development.
+
+This workflow has been replaced through use of [`aws s3 sync` with `--exclude`](https://github.com/scpwiki/sigma/blob/d3cf1bf1b0debc20d9dd3e839cf8a1797fb20220/.github/workflows/deploy.yaml#L47-L48).
+
 # GitHub Action to Sync S3 Bucket
 
 This is a fork of [jakejarvis/s3-sync-action](https://github.com/jakejarvis/s3-sync-action) which works around an issue with aws-cli applying an incorrect charset in MIME guessing mode. Due to how long outstanding this issue is, it seems unlikely it will be fixed. See https://github.com/aws/aws-cli/issues/1346.
